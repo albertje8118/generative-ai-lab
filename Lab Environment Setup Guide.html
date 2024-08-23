@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Setup Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .step {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab Setup Guide</h1>
+    <p>This guide will walk you through setting up your environment to run the lab for the Generative AI course. We will be using Visual Studio Code, Python with Anaconda, and Hugging Face's transformer models.</p>
+
+    <h2>Hardware and Software Requirements</h2>
+    <div class="step">
+        <h3>Hardware</h3>
+        <ul>
+            <li>Laptop with integrated graphics</li>
+            <li>Minimum 8GB RAM</li>
+            <li>Minimum 20GB free disk space</li>
+        </ul>
+    </div>
+    <div class="step">
+        <h3>Software</h3>
+        <ul>
+            <li>Operating System: Windows, macOS, or Linux</li>
+            <li>Visual Studio Code</li>
+            <li>Anaconda Distribution with Python 3.x</li>
+            <li>Hugging Face Transformers library</li>
+        </ul>
+    </div>
+
+    <h2>Step-by-Step Lab Environment Setup</h2>
+    <div class="step">
+        <h3>Step 1: Install Visual Studio Code</h3>
+        <p>Download and install Visual Studio Code from the official website: <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Install Anaconda</h3>
+        <p>Download and install Anaconda Distribution from the official website: <a href="https://www.anaconda.com/">https://www.anaconda.com/</a></p>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Set Up a Python Environment</h3>
+        <pre><code>conda create -n generative-ai-lab python=3.9
+conda activate generative-ai-lab</code></pre>
+        <p>This command creates and activates a new environment named <code>generative-ai-lab</code> with Python 3.9.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 4: Install Required Python Packages</h3>
+        <pre><code>conda install -c conda-forge transformers
+conda install -c conda-forge python-dotenv</code></pre>
+        <p>This installs the Hugging Face Transformers library and the <code>python-dotenv</code> package.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 5: Set Up Your Project in Visual Studio Code</h3>
+        <ul>
+            <li>Open Visual Studio Code.</li>
+            <li>Create a new folder for your project and open it in Visual Studio Code.</li>
+            <li>In the terminal, activate your Conda environment: <code>conda activate generative-ai-lab</code>.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>Step 6: Create a <code>.env</code> File to Store Your API Key</h3>
+        <p>Create a file named <code>.env</code> in your project directory to securely store your Hugging Face API key.</p>
+        <pre><code>HUGGINGFACE_API_KEY=your_huggingface_api_key_here</code></pre>
+        <p>Replace <code>your_huggingface_api_key_here</code> with your actual API key from Hugging Face.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 7: Write Your Python Script</h3>
+        <p>Create a Python script (e.g., <code>summarize_dialogue.py</code>) and use the following template:</p>
+        <pre><code>import os
+from dotenv import load_dotenv
+from transformers import pipeline
+
+# Load environment variables from the .env file
+load_dotenv()
+
+# Access the Hugging Face API key
+api_key = os.getenv('HUGGINGFACE_API_KEY')
+
+# Example usage: creating a summarization pipeline
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
+dialogue = """
+Customer: I have a problem with my order.
+Support: I'm sorry to hear that. Can you provide more details?
+Customer: I received the wrong item.
+Support: We apologize for the inconvenience. We'll send the correct item right away.
+"""
+
+summary = summarizer(dialogue, max_length=50, min_length=25, do_sample=False)
+print(summary[0]['summary_text'])</code></pre>
+        <p>This script loads the API key from the <code>.env</code> file and uses it to create a summarization pipeline using the Hugging Face Transformers library.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 8: Run Your Script</h3>
+        <p>In the Visual Studio Code terminal, ensure your Conda environment is activated, then run your script:</p>
+        <pre><code>python summarize_dialogue.py</code></pre>
+        <p>The script will output the summarized dialogue.</p>
+    </div>
+</body>
+</html>
